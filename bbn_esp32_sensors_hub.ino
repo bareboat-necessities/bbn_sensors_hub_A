@@ -9,6 +9,7 @@ ReactESP app;
 #include "Nmea0183Msg.h"
 #include "1w_sensors.h"
 #include "i2c_sensors.h"
+#include "gpio_sensors.h"
 
 bool i2c_alt_enable = true;
 
@@ -22,6 +23,7 @@ void setup() {
   Serial.begin(115200);
   one_wire_sensors_scan();
   i2c_sensors_scan(i2c_alt_enable);
+  gpio_sensors_init();
 }
 
 void loop() {
