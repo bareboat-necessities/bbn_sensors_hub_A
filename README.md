@@ -21,7 +21,7 @@ No soldering required. Connect sensors to i2c. Load firmware to atomS3-lite.
     + [Voltmeter on m5stack AtomS3 with ADS1115 M5Stack Voltmeter (up to two with secondary i2c bus)](#voltmeter-on-m5stack-atoms3-with-ads1115-m5stack-voltmeter--up-to-two-with-secondary-i2c-bus)
     + [M5Stack DLight Illuminance sensor to NMEA-0183](#m5stack-dlight-illuminance-sensor-to-nmea-0183)
     + [JSN-SR04T Waterproof Ultrasonic Sensor to NMEA 0183 XDR](#jsn-sr04t-waterproof-ultrasonic-sensor-to-nmea-0183-xdr)
-    + [Environmental Air Sensors (Pressure/Temp/Humidity) BMP280, DHT12, QMP6988, SHT30](#environmental-air-sensors-pressure-temp-humidity-bmp280-dht12-qmp6988-sht30)
+    + [Environmental Air Sensors (Pressure/Temp/Humidity) BMP280, DHT12, QMP6988, SHT30](#environmental-air-sensors-pressuretemphumidity-bmp280-dht12-qmp6988-sht30)
   * [NMEA XDR Output](#nmea-xdr-output)
   * [Loading Firmware](#loading-firmware)
     + [On Bareboat Necessities (BBN) OS (full)](#on-bareboat-necessities-bbn-os-full)
