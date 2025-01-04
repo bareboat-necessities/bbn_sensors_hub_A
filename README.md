@@ -281,10 +281,10 @@ Connected via i2c
 
 ## NMEA XDR Output
 
-on USB-C port with baud rate 115200
+on USB-C port with baud rate 38400
 
 ````
-stty -F /dev/ttyACM1 115200
+stty -F /dev/ttyACM1 38400
 socat stdio /dev/ttyACM1
 ````
 
