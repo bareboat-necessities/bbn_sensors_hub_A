@@ -265,6 +265,10 @@ Mount PVC pipe with sensor on top of it
 in a bilge. The sensor will measure distance to water surface in the bilge,
 giving you bilge level.
 
+<p align="center">
+<img src="bilge_level_sensor.png?raw=true" alt="BBN Bilge Level Sensor" />
+</p>
+
 NMEA 0183 XDR
 
 Produces NMEA 0183 XDR via USB serial with baud rate 4800
