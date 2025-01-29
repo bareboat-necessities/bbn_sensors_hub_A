@@ -45,6 +45,8 @@ https://shop.m5stack.com/products/3-96-transfer-unit
 
 (There are 3 kinds of connector different sensor could use: m5stack Grove, Adafruit Stemma QT, SparkFun Qwiic)
 
+While both I2C Grove and Qwiic use the same I2C communication protocol, the key difference in voltage is that Grove can operate with both 3.3V and 5V devices, while Qwiic is strictly 3.3V only; meaning most Qwiic devices require voltage level shifting if connecting to a 5V system, whereas Grove modules can generally handle a wider voltage range without needing additional circuitry
+
 ## Integration with SignalK
 
 Integration with SignalK is done via NMEA XDR Parser SignalK plugin.
