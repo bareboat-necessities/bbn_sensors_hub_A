@@ -1,4 +1,4 @@
-#include <M5AtomS3.h>
+#include <M5Unified.h>
 #include <Wire.h>
 #include <ReactESP.h>  // https://github.com/mairas/ReactESP
 
@@ -15,7 +15,7 @@ bool i2c_alt_enable = true;
 
 void setup() {
   auto cfg = M5.config();
-  AtomS3.begin(cfg);
+  M5.begin(cfg);
   Wire.begin(G2, G1, 100000UL);
   if (i2c_alt_enable) {
     Wire1.begin(G38, G39, 100000UL);
@@ -27,7 +27,7 @@ void setup() {
 }
 
 void loop() {
-  AtomS3.update();
+  M5.update();
   i2c_sensors_update();
   app.tick();
   delay(3);
