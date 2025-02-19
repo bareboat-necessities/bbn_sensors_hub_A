@@ -302,6 +302,9 @@ socat stdio /dev/ttyACM1
 ### On Bareboat Necessities (BBN) OS (full)
 
 ````
+# shutdown signalk
+sudo systemctl stop signalk
+
 if [ -f bbn-flash-m5-hub.sh ]; then rm bbn-flash-m5-hub.sh; fi
 wget https://raw.githubusercontent.com/bareboat-necessities/my-bareboat/refs/heads/master/m5stack-tools/bbn-flash-m5-hub.sh
 chmod +x bbn-flash-m5-hub.sh 
