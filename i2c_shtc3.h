@@ -21,7 +21,7 @@ void i2c_shtc3_report() {
 bool i2c_shtc3_try_init() {
   bool i2c_shtc3_found = false;
   for (int i = 0; i < 3; i++) {
-    i2c_shtc3_found = i2c_shtc3_sensor.begin();  // Initialize SHTC3 sensor
+    i2c_shtc3_found = i2c_shtc3_sensor.begin(Wire);  // Initialize SHTC3 sensor
     if (i2c_shtc3_found) {
       break;
     }
