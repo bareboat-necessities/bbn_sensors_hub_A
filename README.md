@@ -17,6 +17,7 @@ No soldering required. Connect sensors to i2c. Load firmware to atomS3-lite.
     + [SGP30 Air Quality and TVOC sensor connected to M5Stack AtomS3-Lite via i2c](#sgp30-air-quality-and-tvoc-sensor-connected-to-m5stack-atoms3-lite-via-i2c)
     + [Time-of-Flight Distance Ranging Sensor Unit (VL53L0X)](#time-of-flight-distance-ranging-sensor-unit-vl53l0x)
     + [Bosch BME680 Air Sensor](#bosch-bme680-air-sensor)
+    + [DPS310 Air Pressure Sensor](#dps310-sensor)
     + [M5Stack 4-20mA current sensors to NMEA-0183 (up to two with secondary i2c bus)](#m5stack-4-20ma-current-sensors-to-nmea-0183-up-to-two-with-secondary-i2c-bus)
     + [Voltmeter on m5stack AtomS3 with ADS1115 M5Stack Voltmeter (up to two with secondary i2c bus)](#voltmeter-on-m5stack-atoms3-with-ads1115-m5stack-voltmeter-up-to-two-with-secondary-i2c-bus)
     + [M5Stack DLight Illuminance sensor to NMEA-0183](#m5stack-dlight-illuminance-sensor-to-nmea-0183)
@@ -285,6 +286,10 @@ $BBXDR,D,0.71,M,Range_JSN_S04T*54
 ````
 
 ### Environmental Air Sensors (Pressure/Temp/Humidity) BMP280, DHT12, QMP6988, SHT30
+
+Connected via i2c
+
+# DPS310 Sensor
 
 Connected via i2c
 
