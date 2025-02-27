@@ -13,7 +13,7 @@ Adafruit_DPS310 i2c_dps310_sensor;
 void i2c_dps310_report() {
   if (i2c_dps310_sensor.temperatureAvailable() && i2c_dps310_sensor.pressureAvailable()) {
     sensors_event_t temp_event, pressure_event;
-    dps.getEvents(&temp_event, &pressure_event);
+    i2c_dps310_sensor.getEvents(&temp_event, &pressure_event);
     gen_nmea0183_xdr("$BBXDR,C,%.2f,C,TEMP_DPS310", temp_event.temperature);      // C
     gen_nmea0183_xdr("$BBXDR,P,%.2f,P,TEMP_DPS310", 100 * temp_event.pressure);   // Pa
   }
