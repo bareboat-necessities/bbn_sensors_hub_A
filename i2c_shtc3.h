@@ -29,7 +29,7 @@ bool i2c_shtc3_try_init() {
     delay(10);
   }
   if (i2c_shtc3_found) {
-    gen_nmea0183_msg("$BBTXT,01,01,01,ENVIRONMENT found SHTC3 sensor at address=0x%s", String(SHTC3_I2C_ADDR, HEX).c_str());
+    gen_nmea0183_msg("$BBTXT,01,01,01,ENVIRONMENT found shtc3 sensor at address=0x%s", String(SHTC3_I2C_ADDR, HEX).c_str());
     app.onRepeat(5000, []() {
       i2c_shtc3_report();
     });
