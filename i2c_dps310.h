@@ -10,6 +10,23 @@
 
 Adafruit_DPS310 i2c_dps310_sensor;
 
+// WHOAMI register address (as per the DPS310 datasheet)
+#define I2C_DPS310_WHOAMI_REG 0x0D
+
+// Function to read the WHOAMI register
+uint8_t i2c_dps310_read_whoami() {
+  Wire.beginTransmission(DPS310_I2C_ADDR);
+  Wire.write(I2C_DPS310_WHOAMI_REG);
+  Wire.endTransmission(false);
+  Wire.requestFrom(DPS310_I2C_ADDR, 1);
+  // Read the WHOAMI value
+  if (Wire.available()) {
+    return Wire.read();
+  }
+  // If no data is available, return 0xFF (error value)
+  return 0xFF;
+}
+
 void i2c_dps310_report() {
   if (i2c_dps310_sensor.temperatureAvailable() && i2c_dps310_sensor.pressureAvailable()) {
     sensors_event_t temp_event, pressure_event;
