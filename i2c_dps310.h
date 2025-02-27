@@ -32,7 +32,7 @@ void i2c_dps310_report() {
     sensors_event_t temp_event, pressure_event;
     i2c_dps310_sensor.getEvents(&temp_event, &pressure_event);
     gen_nmea0183_xdr("$BBXDR,C,%.2f,C,TEMP_DPS310", temp_event.temperature);      // C
-    gen_nmea0183_xdr("$BBXDR,P,%.2f,P,TEMP_DPS310", 100 * temp_event.pressure);   // Pa
+    gen_nmea0183_xdr("$BBXDR,P,%.2f,P,PRES_DPS310", 100 * temp_event.pressure);   // Pa
   }
 }
 
