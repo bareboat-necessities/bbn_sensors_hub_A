@@ -27,11 +27,13 @@ void i2c_sensors_scan(bool i2c_alt_enable_scan) {
   }
   i2c_dps310_try_init();
   i2c_bmp280_try_init();
-  i2c_qmp6988_try_init();
+  bool qmp6988_found = i2c_qmp6988_try_init();
   i2c_bme680_try_init();
   i2c_dht12_try_init();
   i2c_sht30_try_init();
-  i2c_shtc3_try_init();
+  if (!qmp6988_found) {
+    i2c_shtc3_try_init();
+  }
   i2c_sgp30_try_init();
   i2c_bh1750fvi_tr_try_init();
   i2c_vl53l0x_try_init();
