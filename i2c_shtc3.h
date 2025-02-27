@@ -7,7 +7,7 @@
 #include "NmeaXDR.h"
 #include "Nmea0183Msg.h"
 
-#define SHTC3_I2C_ADDR 0x70  // SHTC3 I2C address
+#define SHTC3_I2C_ADDR 0x70  // SHTC3 I2C address (0x71 is 'read' address)
 
 SHTC3 i2c_shtc3_sensor;  
 
