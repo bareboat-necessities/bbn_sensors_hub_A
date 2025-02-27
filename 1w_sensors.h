@@ -10,6 +10,7 @@ OneWire oneWire(ONE_WIRE_BUS);
 
 void one_wire_sensors_scan() {
   pinMode(ONE_WIRE_BUS, INPUT);
+  //pinMode(ONE_WIRE_BUS, INPUT_PULLUP);  // For internal pullup resistor case
   one_wire_dallas_try_init();
 }
 
