@@ -9,6 +9,7 @@ OneWire oneWire(ONE_WIRE_BUS);
 #include "1w_ds18b20.h"
 
 void one_wire_sensors_scan() {
+  pinMode(ONE_WIRE_BUS, INPUT);
   one_wire_dallas_try_init();
 }
 
