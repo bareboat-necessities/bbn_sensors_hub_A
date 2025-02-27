@@ -289,7 +289,7 @@ $BBXDR,D,0.71,M,Range_JSN_S04T*54
 
 Connected via i2c
 
-# DPS310 Sensor
+### DPS310 Sensor
 
 Connected via i2c
 
