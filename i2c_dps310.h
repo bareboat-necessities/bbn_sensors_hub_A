@@ -31,7 +31,7 @@ void i2c_dps310_report() {
   if (i2c_dps310_sensor.temperatureAvailable() && i2c_dps310_sensor.pressureAvailable()) {
     sensors_event_t temp_event, pressure_event;
     i2c_dps310_sensor.getEvents(&temp_event, &pressure_event);
-    gen_nmea0183_xdr("$BBXDR,C,%.2f,C,TEMP_DPS310", temp_event.temperature);      // C
+    gen_nmea0183_xdr("$BBXDR,C,%.2f,C,TEMP_DPS310", temp_event.temperature);          // C
     gen_nmea0183_xdr("$BBXDR,P,%.2f,P,PRES_DPS310", 100 * pressure_event.pressure);   // Pa
   }
 }
@@ -40,7 +40,7 @@ bool i2c_dps310_try_init() {
   bool i2c_dps310_found = false;
   for (int i = 0; i < 3; i++) {
     // Verify the whoami as well (expected whoami value for DPS310 is 0x10)
-    i2c_dps310_found = /* (0x10 == i2c_dps310_read_whoami()) && */ i2c_dps310_sensor.begin_I2C(DPS310_I2C_ADDR, &Wire);
+    i2c_dps310_found = (0x10 == i2c_dps310_read_whoami()) && i2c_dps310_sensor.begin_I2C(DPS310_I2C_ADDR, &Wire);
     if (i2c_dps310_found) {
       break;
     }
