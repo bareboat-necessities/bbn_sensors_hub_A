@@ -13,6 +13,7 @@
 #include "i2c_vl53l0x.h"
 #include "i2c_ina219.h"
 #include "i2c_as3935.h"
+#include "i2c_dps310.h"
 
 void i2c_sensors_scan(bool i2c_alt_enable_scan) {
   i2c_ina219_try_init(&Wire);
