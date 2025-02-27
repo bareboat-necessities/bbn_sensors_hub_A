@@ -41,6 +41,8 @@ bool i2c_dps310_try_init() {
   for (int i = 0; i < 3; i++) {
     i2c_dps310_found = i2c_dps310_sensor.begin_I2C(DPS310_I2C_ADDR, &Wire);
     if (i2c_dps310_found) {
+      // Verify the value (expected whoami value for DPS310 is 0x10)
+      i2c_dps310_found = 0x10 == i2c_dps310_read_whoami();
       break;
     }
     delay(10);
