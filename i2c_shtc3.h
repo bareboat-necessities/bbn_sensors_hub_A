@@ -12,7 +12,8 @@
 SHTC3 i2c_shtc3_sensor;  
 
 void i2c_shtc3_report() {
-  if (i2c_shtc3_sensor.update()) {
+  SHTC3_Status_TypeDef result = i2c_shtc3_sensor.update();
+  if (i2c_shtc3_sensor.lastStatus == SHTC3_Status_Nominal) {
     gen_nmea0183_xdr("$BBXDR,H,%.2f,P,HUMI_SHTC3", i2c_shtc3_sensor.toPercent());  // %
     gen_nmea0183_xdr("$BBXDR,C,%.2f,C,TEMP_SHTC3", i2c_shtc3_sensor.toDegC());     // C
   }
