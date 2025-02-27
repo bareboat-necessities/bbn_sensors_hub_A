@@ -26,11 +26,11 @@ void i2c_sensors_scan(bool i2c_alt_enable_scan) {
     i2c_ain_4_20ma_try_init(&Wire1, G38, G39, 100000UL);
   }
   bool dps310_found = i2c_dps310_try_init();
-  bool qmp6988_found = i2c_qmp6988_try_init();
   if (!dps310_found) {
     i2c_bmp280_try_init();
     i2c_bme680_try_init();
   }
+  bool qmp6988_found = i2c_qmp6988_try_init();
   i2c_dht12_try_init();
   i2c_sht30_try_init();
   if (!qmp6988_found) {
