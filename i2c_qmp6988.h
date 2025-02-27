@@ -26,8 +26,7 @@ uint8_t i2c_qmp6988_whoami() {
   // Request 1 byte of data from the sensor
   Wire.requestFrom(QMP6988_I2C_ADDRESS, 1);
   if (Wire.available()) {
-    uint8_t chipID = Wire.read(); // Read the Chip ID value
-    return chipID;
+    return Wire.read(); // Read the Chip ID value
   }
   return 0xFF; // unknown
 }
