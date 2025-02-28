@@ -51,11 +51,11 @@ void one_wire_dallas_try_init() {
         char str[17];
         addressToStr(deviceAddress, str);
         gen_nmea0183_msg("$BBTXT,01,01,01,TEMPERATURE found 1wire sensor address=%s", str);
-        app.onRepeat(5000, []() {
-          one_wire_dallas_sensors_report();
-        });
       }
     }
+    app.onRepeat(5000, []() {
+      one_wire_dallas_sensors_report();
+    });
   }
 }
 
