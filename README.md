@@ -21,7 +21,6 @@ No soldering required. Connect sensors to i2c. Load firmware to atomS3-lite.
     + [M5Stack 4-20mA current sensors to NMEA-0183 (up to two with secondary i2c bus)](#m5stack-4-20ma-current-sensors-to-nmea-0183-up-to-two-with-secondary-i2c-bus)
     + [Voltmeter on m5stack AtomS3 with ADS1115 M5Stack Voltmeter (up to two with secondary i2c bus)](#voltmeter-on-m5stack-atoms3-with-ads1115-m5stack-voltmeter-up-to-two-with-secondary-i2c-bus)
     + [M5Stack DLight Illuminance sensor to NMEA-0183](#m5stack-dlight-illuminance-sensor-to-nmea-0183)
-    + [JSN-SR04T Waterproof Ultrasonic Sensor to NMEA 0183 XDR](#jsn-sr04t-waterproof-ultrasonic-sensor-to-nmea-0183-xdr)
     + [Environmental Air Sensors (Pressure/Temp/Humidity) BMP280, DHT12, QMP6988, SHT30, SHTC3](#environmental-air-sensors-pressuretemphumidity-bmp280-dht12-qmp6988-sht30-shtc3)
   * [NMEA XDR Output](#nmea-xdr-output)
   * [Loading Firmware](#loading-firmware)
@@ -248,42 +247,6 @@ M5Stack DLight illuminance sensor :
 
 https://shop.m5stack.com/products/dlight-unit-ambient-light-sensor-bh1750fvi-tr
 
-### JSN-SR04T Waterproof Ultrasonic Sensor to NMEA 0183 XDR
-
-https://www.makerguides.com/interfacing-esp32-and-jsn-sr04t-waterproof-ultrasonic-sensor/
-
-https://bitbucket.org/teckel12/arduino-new-ping/wiki/Home
-
-Connecting to m5stack atomS3-Lite
-
-Pins:
-
-- G6 to Echo_TX
-- G5 to Trig_RX
-- VCC 3.3 to VCC
-- GND to GND
-
-Bilge Level Sensor
-
-Install it into a cap of PVC pipe.
-Drill a hole for air to escape.
-Mount PVC pipe with sensor on top of it
-in a bilge. The sensor will measure distance to water surface in the bilge,
-giving you bilge level.
-
-<p align="center">
-<img src="./bilge_level_sensor.jpg?raw=true" alt="BBN Bilge Level Sensor" />
-</p>
-
-NMEA 0183 XDR
-
-Produces NMEA 0183 XDR via USB serial with baud rate 4800
-
-````
-$BBXDR,D,0.52,M,Range_JSN_S04T*55
-$BBXDR,D,0.70,M,Range_JSN_S04T*55
-$BBXDR,D,0.71,M,Range_JSN_S04T*54
-````
 
 ### Environmental Air Sensors (Pressure/Temp/Humidity) BMP280, DHT12, QMP6988, SHT30, SHTC3
 
