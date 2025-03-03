@@ -1,4 +1,4 @@
-# bbn_esp32_sensors_hub
+# bbn-sensors-hub-A
 NMEA 0183 XDR Sensors on esp32 m5stack atomS3-lite
 
 No soldering required. Connect sensors to i2c. Load firmware to atomS3-lite.
