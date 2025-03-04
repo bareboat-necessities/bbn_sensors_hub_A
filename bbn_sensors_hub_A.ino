@@ -13,6 +13,8 @@ ReactESP app;
 
 bool i2c_alt_enable = true;
 
+static const char* firmware_tag = "bbn_sensors_hub_B";
+
 void setup() {
   auto cfg = M5.config();
   M5.begin(cfg);
@@ -22,6 +24,7 @@ void setup() {
     Wire1.begin(G38, G39, 100000UL);
   }
   Serial.begin(38400);
+  gen_nmea0183_msg("$BBTXT,01,01,01,FirmwareTag: %s", firmware_tag);
   one_wire_sensors_scan();
   i2c_sensors_scan(i2c_alt_enable);
   gpio_sensors_init();
