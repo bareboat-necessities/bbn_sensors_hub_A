@@ -13,7 +13,7 @@ ReactESP app;
 
 bool i2c_alt_enable = true;
 
-static const char* firmware_tag = "bbn_sensors_hub_B";
+static const char* firmware_tag = "bbn_sensors_hub_A";
 
 void setup() {
   auto cfg = M5.config();
