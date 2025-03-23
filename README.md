@@ -106,7 +106,7 @@ Waterproof Digital Temperature Sensor DS18B20 with GikFun plugin terminal board
 
 https://www.amazon.com/Gikfun-DS18B20-Waterproof-Digital-Temperature/dp/B08V93CTM2
 
-### INA219 Voltage and Current sensors (up to eight)
+### INA219 Voltage and Current sensors
 
 Load and your sensor need to share common ground.
 
@@ -213,7 +213,7 @@ https://www.amazon.com/4-20mA-Liquid-Sensor-Throw-Sensors/dp/B07WDK2PRN
 (Two wires from that sensor connect to IN+ and IN- on M5Stack Unit and on same terminal the current loop need to be powered from some DC power source)
 
 
-### Voltmeter on m5stack AtomS3 with ADS1115 M5Stack Voltmeter (up to two with secondary i2c bus)
+### Voltmeter on m5stack AtomS3 with ADS1115 M5Stack Voltmeter
 
 
 M5Stack Voltmeter unit connected to M5Stack AtomS3-Lite via i2c
