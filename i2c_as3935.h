@@ -87,9 +87,9 @@ bool i2c_as3935_try_init() {
   for (int i = 0; i < 5; i++) {
     if (!i2c_as3935_found) {
       i2c_as3935_found = i2c_as3935_sensor.begin();
-      if (i2c_as3935_found) {
-        break;
-      }
+    }
+    if (i2c_as3935_found) {
+      break;
     }
     delay(30);
   }
