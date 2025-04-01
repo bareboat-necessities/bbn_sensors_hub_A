@@ -59,7 +59,7 @@ void i2c_as3935_report()
 bool i2c_as3935_try_init() {
   bool i2c_as3935_found = false;
 
-  i2c_as3935_found = i2c_as3935_sensor.begin();
+  i2c_as3935_found = i2c_as3935_sensor.begin() == 0;
   if (i2c_as3935_found) {
     i2c_as3935_sensor.defInit();
     attachInterrupt(digitalPinToInterrupt(AS3935_IRQ_PIN), AS3935_ISR, RISING);
