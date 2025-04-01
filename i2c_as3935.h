@@ -10,8 +10,9 @@
 // Connect the sensor's IRQ pin to a GPIO pin on the microcontroller
 // then replace the number below with the GPIO pin number
 #define AS3935_IRQ_PIN  G7
+#define AS3935_I2C_ADDR AS3935I2C::AS3935I2C_A11
 
-AS3935I2C i2c_as3935_sensor(AS3935I2C::AS3935I2C_A03, AS3935_IRQ_PIN);
+AS3935I2C i2c_as3935_sensor(AS3935_I2C_ADDR, AS3935_IRQ_PIN);
 
 void IRAM_ATTR AS3935_ISR();
 
@@ -59,7 +60,7 @@ void i2c_as3935_report() {
       // note that noise floor threshold events can also be triggered by an incorrect
       // analog front end setting.
       uint8_t nf_lev = AS3935MI::AS3935_NFL_0;
-      i2c_as3935_sensor.increaseNoiseFloorThreshold(nf_lev);
+      i2c_as3935_sensor.increaseNoiseFloorThreshold();
     }
   }
 
