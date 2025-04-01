@@ -2,41 +2,28 @@
 #define i2c_as3935_h
 
 #include <Wire.h>
+#include <AS3935I2C.h>
 
-#include "DFRobot_AS3935_I2C.h"
 #include "NmeaXDR.h"
 #include "NmeaChecksum.h"
-
-volatile int8_t AS3935IsrTrig = 0;
 
 // Connect the sensor's IRQ pin to a GPIO pin on the microcontroller
 // then replace the number below with the GPIO pin number
 #define AS3935_IRQ_PIN       G7
 
-// Antenna tuning capacitance (must be integer multiple of 8, 8 - 120 pf)
-#define AS3935_CAPACITANCE   96
+AS3935I2C i2c_as3935_sensor(AS3935I2C::AS3935I2C_A03, AS3935_IRQ_PIN);
 
-// Indoor/outdoor mode selection
-#define AS3935_INDOORS       0
-#define AS3935_OUTDOORS      1
-#define AS3935_MODE          AS3935_OUTDOORS
+void IRAM_ATTR AS3935_ISR();
 
-// Enable/disable disturber detection
-#define AS3935_DIST_DIS      0
-#define AS3935_DIST_EN       1
-#define AS3935_DIST          AS3935_DIST_EN
+volatile bool AS3935IsrTrig = false;
 
-// I2C address
-#define AS3935_I2C_ADDR      AS3935_ADD3
-
-void AS3935_ISR();
-
-DFRobot_AS3935_I2C i2c_as3935_sensor((uint8_t)AS3935_IRQ_PIN, (uint8_t)AS3935_I2C_ADDR);
+constexpr uint32_t SENSE_INCREASE_INTERVAL = 15000;	 // 15 s sensitivity increase interval
+uint32_t sense_adj_last_ = 0L;						           // time of last sensitivity adjustment
 
 void i2c_as3935_report() {
-  if (AS3935IsrTrig == 1) {
-    delay(2);
-    AS3935IsrTrig = 0;
+  if (AS3935IsrTrig) {
+    delay(3);
+    AS3935IsrTrig = false;
     uint8_t intSrc = i2c_as3935_sensor.getInterruptSrc();
     if (intSrc == 1) {
       // Get distance data
@@ -77,7 +64,7 @@ bool i2c_as3935_try_init() {
 }
 
 void IRAM_ATTR AS3935_ISR() {
-  AS3935IsrTrig = 1;
+  AS3935IsrTrig = true;
 }
 
 #endif
