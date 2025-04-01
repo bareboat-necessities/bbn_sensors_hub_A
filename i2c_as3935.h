@@ -23,7 +23,7 @@ uint32_t sense_adj_last_ = 0L;                       // time of last sensitivity
 
 void i2c_as3935_report() {
   if (AS3935IsrTrig) {
-    delay(3);
+    delay(4);
     AS3935IsrTrig = false;
     uint8_t event = i2c_as3935_sensor.readInterruptSource();
     if (event == AS3935MI::AS3935_INT_L) {
@@ -117,11 +117,11 @@ bool i2c_as3935_try_init() {
     i2c_as3935_sensor.writeWatchdogThreshold(AS3935MI::AS3935_WDTH_1);
     i2c_as3935_sensor.writeSpikeRejection(AS3935MI::AS3935_SREJ_0);
     i2c_as3935_sensor.writeMinLightnings(AS3935MI::AS3935_MNL_1);
-    i2c_as3935_sensor.writeMaskDisturbers(true);  
+    i2c_as3935_sensor.writeMaskDisturbers(false);  
 
     attachInterrupt(digitalPinToInterrupt(AS3935_IRQ_PIN), AS3935_ISR, RISING);
 
-    app.onRepeat(10, []() {
+    app.onRepeat(2000, []() {
       i2c_as3935_report();
     });
   }
