@@ -31,7 +31,7 @@ volatile int8_t AS3935IsrTrig = 0;
 
 void AS3935_ISR();
 
-DFRobot_AS3935_I2C  i2c_as3935_sensor((uint8_t)AS3935_IRQ_PIN, (uint8_t)AS3935_I2C_ADDR);
+DFRobot_AS3935_I2C i2c_as3935_sensor((uint8_t)AS3935_IRQ_PIN, (uint8_t)AS3935_I2C_ADDR);
 
 void i2c_as3935_report() {
   if (AS3935IsrTrig == 1) {
@@ -58,14 +58,11 @@ void i2c_as3935_report() {
 }
 
 bool i2c_as3935_try_init() {
-  bool i2c_as3935_found = false;
-
-  i2c_as3935_found = i2c_as3935_sensor.begin() == 0;
+  bool i2c_as3935_found = i2c_as3935_sensor.begin() == 0;
   if (i2c_as3935_found) {
     i2c_as3935_sensor.defInit();
     attachInterrupt(digitalPinToInterrupt(AS3935_IRQ_PIN), AS3935_ISR, RISING);
     i2c_as3935_sensor.manualCal(AS3935_CAPACITANCE, AS3935_MODE, AS3935_DIST);
-
     gen_nmea0183_msg("$BBTXT,01,01,01,ENVIRONMENT found as3935 sensor at address=0x%s", String(AS3935_I2C_ADDR, HEX).c_str());
     app.onRepeat(5, []() {
       i2c_as3935_report();
