@@ -25,8 +25,8 @@ void setup() {
   }
   Serial.begin(38400);
   gen_nmea0183_msg("$BBTXT,01,01,01,FirmwareTag: %s", firmware_tag);
-  one_wire_sensors_scan();
   i2c_sensors_scan(i2c_alt_enable);
+  one_wire_sensors_scan();
   gpio_sensors_init();
 }
 
@@ -34,5 +34,5 @@ void loop() {
   M5.update();
   i2c_sensors_update();
   app.tick();
-  delay(3);
+  delayMicros(50);
 }
