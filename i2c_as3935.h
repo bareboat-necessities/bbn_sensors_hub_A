@@ -109,7 +109,8 @@ bool i2c_as3935_try_init() {
     i2c_as3935_sensor.calibrateResonanceFrequency(frequency, division_ratio);
     gen_nmea0183_msg("$BBTXT,01,01,01,ENVIRONMENT LIGHTNING antenna freq=%s", String(frequency).c_str()); // should be 482500 Hz - 517500 Hz
     
-    i2c_as3935_sensor.calibrateRCO();
+    bool calib = i2c_as3935_sensor.calibrateRCO();
+    gen_nmea0183_msg("$BBTXT,01,01,01,ENVIRONMENT LIGHTNING RCO calibrated=%s", String(calib).c_str()); 
 
     i2c_as3935_sensor.writeAFE(AS3935MI::AS3935_OUTDOORS);
     i2c_as3935_sensor.writeNoiseFloorThreshold(AS3935MI::AS3935_NFL_2);
