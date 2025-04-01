@@ -59,7 +59,6 @@ void i2c_as3935_report() {
       // if the noise floor threshold setting is not yet maxed out, increase the setting.
       // note that noise floor threshold events can also be triggered by an incorrect
       // analog front end setting.
-      uint8_t nf_lev = AS3935MI::AS3935_NFL_0;
       i2c_as3935_sensor.increaseNoiseFloorThreshold();
     }
   }
