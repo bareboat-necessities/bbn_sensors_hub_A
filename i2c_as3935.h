@@ -17,7 +17,7 @@ void IRAM_ATTR AS3935_ISR();
 
 volatile bool AS3935IsrTrig = false;
 
-constexpr uint32_t SENSE_INCREASE_INTERVAL = 15000;	 // 15 s sensitivity increase interval
+constexpr uint32_t SENSE_INCREASE_INTERVAL = 15000;  // 15 s sensitivity increase interval
 uint32_t sense_adj_last_ = 0L;                       // time of last sensitivity adjustment
 
 void i2c_as3935_report() {
