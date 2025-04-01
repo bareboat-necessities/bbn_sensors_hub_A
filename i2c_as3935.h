@@ -18,7 +18,7 @@ void IRAM_ATTR AS3935_ISR();
 
 volatile bool AS3935IsrTrig = false;
 
-constexpr uint32_t SENSE_INCREASE_INTERVAL = 15000;  // 15 s sensitivity increase interval
+constexpr uint32_t SENSE_INCREASE_INTERVAL = 10000;  // 10 s sensitivity increase interval
 uint32_t sense_adj_last_ = 0L;                       // time of last sensitivity adjustment
 
 void i2c_as3935_report() {
@@ -65,7 +65,7 @@ void i2c_as3935_report() {
 
   // increase sensor sensitivity every once in a while. SENSE_INCREASE_INTERVAL controls how quickly the code 
   // attempts to increase sensitivity. 
-  if (millis() - sense_adj_last_ > SENSE_INCREASE_INTERVAL) {
+  if (sense_adj_last_ != 0L && millis() - sense_adj_last_ > SENSE_INCREASE_INTERVAL) {
     sense_adj_last_ = millis();
     uint8_t wdth = i2c_as3935_sensor.readWatchdogThreshold();
     uint8_t srej = i2c_as3935_sensor.readSpikeRejection();
