@@ -18,7 +18,7 @@ void IRAM_ATTR AS3935_ISR();
 volatile bool AS3935IsrTrig = false;
 
 constexpr uint32_t SENSE_INCREASE_INTERVAL = 15000;	 // 15 s sensitivity increase interval
-uint32_t sense_adj_last_ = 0L;						           // time of last sensitivity adjustment
+uint32_t sense_adj_last_ = 0L;                       // time of last sensitivity adjustment
 
 void i2c_as3935_report() {
   if (AS3935IsrTrig) {
@@ -45,14 +45,26 @@ void i2c_as3935_report() {
 }
 
 bool i2c_as3935_try_init() {
+  pinMode(AS3935_IRQ_PIN, INPUT);
   bool i2c_as3935_found = i2c_as3935_sensor.begin() == 0;
   if (i2c_as3935_found) {
-    pinMode(AS3935_IRQ_PIN, INPUT);
-    i2c_as3935_sensor.defInit();
-    i2c_as3935_sensor.setNoiseFloorLvl(5);
-    i2c_as3935_sensor.setSpikeRejection(4);
-    i2c_as3935_sensor.setMinStrikes(1);
-    i2c_as3935_sensor.setWatchdogThreshold(2);
+    i2c_as3935_sensor.checkConnection();
+    i2c_as3935_sensor.checkIRQ();
+	  // calibrate the resonance frequency. failing the resonance frequency could indicate an issue 
+	  // of the sensor. resonance frequency calibration will take about 1.7 seconds to complete.	
+	  uint8_t division_ratio = AS3935MI::AS3935_DR_16;
+	  if (F_CPU < 48000000) {		// fixes https://bitbucket.org/christandlg/as3935mi/issues/12/autocalibrate-no-longer-working
+		  division_ratio = AS3935MI::AS3935_DR_64;
+    }
+
+	  int32_t frequency = 0;
+	  if (!as3935.calibrateResonanceFrequency(frequency, division_ratio))    
+      i2c_as3935_sensor.defInit();
+      i2c_as3935_sensor.setNoiseFloorLvl(5);
+      i2c_as3935_sensor.setSpikeRejection(4);
+      i2c_as3935_sensor.setMinStrikes(1);
+      i2c_as3935_sensor.setWatchdogThreshold(2);
+    }
     attachInterrupt(digitalPinToInterrupt(AS3935_IRQ_PIN), AS3935_ISR, RISING);
     i2c_as3935_sensor.manualCal(AS3935_CAPACITANCE, AS3935_MODE, AS3935_DIST);
     gen_nmea0183_msg("$BBTXT,01,01,01,ENVIRONMENT found as3935 sensor at address=0x%s", String(AS3935_I2C_ADDR, HEX).c_str());
