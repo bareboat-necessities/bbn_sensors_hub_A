@@ -38,6 +38,21 @@ void i2c_as3935_report() {
       gen_nmea0183_xdr("$BBXDR,X,%.0f,,LIGHTNING_LEVEL", (float)lightningEnergyVal);
     } else if (intSrc == 2) {
       gen_nmea0183_msg("$BBTXT,01,01,01,ENVIRONMENT LIGHTNING %s", "Disturber discovered");
+      
+			// increasing the Watchdog Threshold and / or Spike Rejection setting improves the AS3935s resistance 
+			// against disturbers but also decrease the lightning detection efficiency (see AS3935 datasheet)
+			uint8_t wdth = i2c_as3935_sensor.readWatchdogThreshold();
+			uint8_t srej = i2c_as3935_sensor.readSpikeRejection();
+
+			if ((wdth < AS3935MI::AS3935_WDTH_10) || (srej < AS3935MI::AS3935_SREJ_10)) {
+				sense_adj_last_ = millis();
+				// alternatively increase spike rejection and watchdog threshold 
+				if (srej < wdth) {
+					i2c_as3935_sensor.increaseSpikeRejection(srej);
+				} else {
+          i2c_as3935_sensor.increaseWatchdogThreshold(wdth))
+				}
+			}
     } else if (event == AS3935MI::AS3935_INT_NH) {
       gen_nmea0183_msg("$BBTXT,01,01,01,ENVIRONMENT LIGHTNING %s", "Noise level too high");
       // if the noise floor threshold setting is not yet maxed out, increase the setting.
