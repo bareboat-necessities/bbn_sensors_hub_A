@@ -94,6 +94,8 @@ bool i2c_as3935_try_init() {
     delay(30);
   }
   if (i2c_as3935_found) {
+    gen_nmea0183_msg("$BBTXT,01,01,01,ENVIRONMENT found as3935 sensor at address=0x%s", String(AS3935_I2C_ADDR, HEX).c_str());
+    
     i2c_as3935_sensor.checkConnection();
     i2c_as3935_sensor.checkIRQ();
 
@@ -106,18 +108,19 @@ bool i2c_as3935_try_init() {
 
     int32_t frequency = 0;
     i2c_as3935_sensor.calibrateResonanceFrequency(frequency, division_ratio);
+    gen_nmea0183_msg("$BBTXT,01,01,01,ENVIRONMENT LIGHTNING antenna freq=%s", String(frequency).c_str()); // should be 482500 Hz - 517500 Hz
+    
     i2c_as3935_sensor.calibrateRCO();
 
-    i2c_as3935_sensor.writeAFE(AS3935MI::AS3935_OUTDOORS);
-    i2c_as3935_sensor.writeNoiseFloorThreshold(AS3935MI::AS3935_NFL_5);
+    i2c_as3935_sensor.writeAFE(AS3935MI::AS3935_INDOORS);
+    i2c_as3935_sensor.writeNoiseFloorThreshold(AS3935MI::AS3935_NFL_2);
     i2c_as3935_sensor.writeWatchdogThreshold(AS3935MI::AS3935_WDTH_2);
-    i2c_as3935_sensor.writeSpikeRejection(AS3935MI::AS3935_SREJ_2);
+    i2c_as3935_sensor.writeSpikeRejection(AS3935MI::AS3935_SREJ_0);
     i2c_as3935_sensor.writeMinLightnings(AS3935MI::AS3935_MNL_1);
     i2c_as3935_sensor.writeMaskDisturbers(false);  
 
     attachInterrupt(digitalPinToInterrupt(AS3935_IRQ_PIN), AS3935_ISR, RISING);
 
-    gen_nmea0183_msg("$BBTXT,01,01,01,ENVIRONMENT found as3935 sensor at address=0x%s", String(AS3935_I2C_ADDR, HEX).c_str());
     app.onRepeat(10, []() {
       i2c_as3935_report();
     });
