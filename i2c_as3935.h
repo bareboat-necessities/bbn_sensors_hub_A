@@ -120,7 +120,7 @@ bool i2c_as3935_try_init() {
 
     attachInterrupt(digitalPinToInterrupt(AS3935_IRQ_PIN), AS3935_ISR, RISING);
 
-    app.onRepeat(2000, []() {
+    app.onRepeat(1500, []() {
       i2c_as3935_report();
     });
   }
