@@ -40,11 +40,11 @@ void i2c_as3935_report() {
       gen_nmea0183_msg("$BBTXT,01,01,01,ENVIRONMENT LIGHTNING %s", "Disturber discovered");
     } else if (event == AS3935MI::AS3935_INT_NH) {
       gen_nmea0183_msg("$BBTXT,01,01,01,ENVIRONMENT LIGHTNING %s", "Noise level too high");
-			// if the noise floor threshold setting is not yet maxed out, increase the setting.
-			// note that noise floor threshold events can also be triggered by an incorrect
-			// analog front end setting.
-			uint8_t nf_lev = AS3935MI::AS3935_NFL_0;
-			i2c_as3935_sensor.increaseNoiseFloorThreshold(nf_lev);
+      // if the noise floor threshold setting is not yet maxed out, increase the setting.
+      // note that noise floor threshold events can also be triggered by an incorrect
+      // analog front end setting.
+      uint8_t nf_lev = AS3935MI::AS3935_NFL_0;
+      i2c_as3935_sensor.increaseNoiseFloorThreshold(nf_lev);
     }
   }
 }
