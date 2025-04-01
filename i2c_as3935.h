@@ -63,7 +63,7 @@ bool i2c_as3935_try_init() {
     i2c_as3935_sensor.setIndoorOutdoor(INDOOR);
     //i2c_as3935_sensor.setIndoorOutdoor(OUTDOOR);
     gen_nmea0183_msg("$BBTXT,01,01,01,ENVIRONMENT found as3935 sensor at address=0x%s", String(AS3935_I2C_ADDR, HEX).c_str());
-    app.onRepeat(100, []() {
+    app.onRepeat(30, []() {
       i2c_as3935_report();
     });
   }
