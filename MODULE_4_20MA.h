@@ -54,11 +54,7 @@ bool MODULE_4_20MA::begin(TwoWire *wire, uint8_t addr, uint8_t sda, uint8_t scl,
   delay(10);
   _wire->beginTransmission(_addr);
   uint8_t error = _wire->endTransmission();
-  if (error == 0) {
-    return true;
-  } else {
-    return false;
-  }
+  return error == 0;
 }
 
 void MODULE_4_20MA::readBytes(uint8_t addr, uint8_t reg, uint8_t *buffer,
@@ -124,7 +120,7 @@ uint8_t MODULE_4_20MA::getI2CAddress(void) {
   _wire->write(I2C_ADDRESS_REG);
   _wire->endTransmission();
 
-  _wire->requestFrom(_addr, 1);
+  _wire->requestFrom(_addr, (uint8_t)1);
   uint8_t regValue = _wire->read();
   return regValue;
 }
@@ -134,7 +130,7 @@ uint8_t MODULE_4_20MA::getFirmwareVersion(void) {
   _wire->write(FIRMWARE_VERSION_REG);
   _wire->endTransmission();
 
-  _wire->requestFrom(_addr, 1);
+  _wire->requestFrom(_addr, (uint8_t)1);
   uint8_t regValue = _wire->read();
   return regValue;
 }
