@@ -124,7 +124,7 @@ bool i2c_as3935_try_init() {
     bool calib = i2c_as3935_sensor.calibrateRCO();
     gen_nmea0183_msg("$BBTXT,01,01,01,ENVIRONMENT LIGHTNING RCO calibrated=%s", String(calib).c_str()); 
 
-    i2c_as3935_sensor.writeAFE(AS3935MI::AS3935_OUTDOORS);
+    i2c_as3935_sensor.writeAFE(AS3935MI::AS3935_INDOORS);
     i2c_as3935_sensor.writeNoiseFloorThreshold(AS3935MI::AS3935_NFL_6);
     i2c_as3935_sensor.writeWatchdogThreshold(AS3935MI::AS3935_WDTH_2);
     i2c_as3935_sensor.writeSpikeRejection(AS3935MI::AS3935_SREJ_4);
