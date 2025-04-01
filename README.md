@@ -63,6 +63,8 @@ https://github.com/bareboat-necessities/lysmarine_gen/blob/bookworm/install-scri
 
 AS3935 Lightning Detector connected to M5Stack AtomS3-Lite via i2c and one additional digital GPIO pin (G7) (interrupt)
 
+Install AS3935 Lightning Detector away from other wires to avoid noise.
+
 Generates NMEA-0183 XDR sentences (USB Serial) like this:
 
 ````
