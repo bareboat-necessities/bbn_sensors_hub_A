@@ -19,6 +19,7 @@ void IRAM_ATTR AS3935_ISR();
 volatile bool AS3935IsrTrig = false;
 
 constexpr uint32_t SENSE_INCREASE_INTERVAL = 15000;  // 15 s sensitivity increase interval
+constexpr uint32_t NOISE_ADJ_INTERVAL = 30000;       // noise adjustment interval
 uint32_t sense_adj_last_ = 0L;                       // time of last sensitivity adjustment
 uint32_t noise_adj_last_ = 0L;                       // time of last noise adjustment
 
@@ -80,7 +81,7 @@ void i2c_as3935_report() {
       }
     }
   }
-  if (noise_adj_last_ != 0L && millis() - noise_adj_last_ > SENSE_INCREASE_INTERVAL) {
+  if (noise_adj_last_ != 0L && millis() - noise_adj_last_ > NOISE_ADJ_INTERVAL) {
     noise_adj_last_ = millis();
     i2c_as3935_sensor.decreaseNoiseFloorThreshold();
   }    
