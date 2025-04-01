@@ -423,13 +423,11 @@ void DFRobot_AS3935_I2C::setIndoors(void) {
   // AFE settings addres 0x00, bits 5:1 (10010, based on datasheet, pg 19, table 15)
   // this is the default setting at power-up (AS3935 datasheet, table 9)
   singRegWrite(0x00, 0x3E, 0x24);
-  Serial.println("set up for indoor operation");
 }
 
 void DFRobot_AS3935_I2C::setOutdoors(void) {
   // AFE settings addres 0x00, bits 5:1 (01110, based on datasheet, pg 19, table 15)
   singRegWrite(0x00, 0x3E, 0x1C);
-  Serial.println("set up for outdoor operation");
 }
 
 void DFRobot_AS3935_I2C::clearStatistics(void) {
@@ -547,7 +545,6 @@ void DFRobot_AS3935_I2C::manualCal(uint8_t capacitance, uint8_t location, uint8_
   delay(500);
   // capacitance first... directly write value here
   setTuningCaps(capacitance);
-  Serial.println("AS3935 manual cal complete");
 }
 // a nice function would be to read the last 'x' strike data values....
 
