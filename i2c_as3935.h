@@ -27,8 +27,10 @@ void i2c_as3935_report() {
   if (AS3935IsrTrig) {
     delay(2);
     AS3935IsrTrig = false;
-    noise_adj_last_ = millis();
     uint8_t event = i2c_as3935_sensor.readInterruptSource();
+    if (event != AS3935MI::AS3935_INT_DUPDATE) {
+      noise_adj_last_ = millis();
+    }
     if (event == AS3935MI::AS3935_INT_L) {
       // Get distance data
       uint8_t lightningDistKm = i2c_as3935_sensor.readStormDistance();
@@ -83,7 +85,7 @@ void i2c_as3935_report() {
   }
   if (noise_adj_last_ != 0L && millis() - noise_adj_last_ > NOISE_ADJ_INTERVAL) {
     uint8_t nf_lev = readNoiseFloorThreshold();
-	  if (nf_lev > AS3935_NFL_1) {
+    if (nf_lev > AS3935_NFL_1) {
       i2c_as3935_sensor.decreaseNoiseFloorThreshold();
       noise_adj_last_ = millis();
     }
