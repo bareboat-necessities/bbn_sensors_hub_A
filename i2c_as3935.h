@@ -36,7 +36,7 @@ void i2c_as3935_report() {
       // account any previously seen events in the last 15 seconds.
       gen_nmea0183_xdr("$BBXDR,D,%.0f,M,LIGHTNING_RANGE", (float)lightningDistKm * 1000.0);
       gen_nmea0183_xdr("$BBXDR,X,%.0f,,LIGHTNING_LEVEL", (float)lightningEnergyVal);
-    } else if (intSrc == 2) {
+    } else if (event == AS3935MI::AS3935_INT_D) {
       gen_nmea0183_msg("$BBTXT,01,01,01,ENVIRONMENT LIGHTNING %s", "Disturber discovered");
       
       // increasing the Watchdog Threshold and / or Spike Rejection setting improves the AS3935s resistance 
