@@ -331,13 +331,11 @@ void DFRobot_AS3935_I2C::powerUp(void) {
 void DFRobot_AS3935_I2C::powerDown(void) {
   // register 0x00, PWD bit: 0 (sets PWD)
   singRegWrite(0x00, 0x01, 0x01);
-  Serial.println("AS3935 powered down");
 }
 
 void DFRobot_AS3935_I2C::disturberEn(void) {
   // register 0x03, PWD bit: 5 (sets MASK_DIST)
   singRegWrite(0x03, 0x20, 0x00);
-  Serial.println("disturber detection enabled");
 }
 
 void DFRobot_AS3935_I2C::disturberDis(void) {
