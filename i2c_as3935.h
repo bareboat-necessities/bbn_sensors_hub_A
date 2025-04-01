@@ -33,7 +33,7 @@ void AS3935_ISR();
 
 DFRobot_AS3935_I2C  i2c_as3935_sensor((uint8_t)AS3935_IRQ_PIN, (uint8_t)AS3935_I2C_ADDR);
 
-void i2c_as3935_report() 
+void i2c_as3935_report() {
   if (AS3935IsrTrig == 1) {
     delay(5);
     AS3935IsrTrig = 0;
