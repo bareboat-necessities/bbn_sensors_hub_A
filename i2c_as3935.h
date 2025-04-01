@@ -66,15 +66,11 @@ bool i2c_as3935_try_init() {
     i2c_as3935_sensor.writeNoiseFloorThreshold(AS3935MI::AS3935_NFL_5);
     i2c_as3935_sensor.writeWatchdogThreshold(AS3935MI::AS3935_WDTH_2);
     i2c_as3935_sensor.writeSpikeRejection(AS3935MI::AS3935_SREJ_2);
-	  
-      i2c_as3935_sensor.defInit();
-      i2c_as3935_sensor.setNoiseFloorLvl(5);
-      i2c_as3935_sensor.setSpikeRejection(4);
-      i2c_as3935_sensor.setMinStrikes(1);
-      i2c_as3935_sensor.setWatchdogThreshold(2);
+    i2c_as3935_sensor.writeMinLightnings(AS3935MI::AS3935_MNL_1);
+    i2c_as3935_sensor.writeMaskDisturbers(false);  
 
     attachInterrupt(digitalPinToInterrupt(AS3935_IRQ_PIN), AS3935_ISR, RISING);
-    i2c_as3935_sensor.manualCal(AS3935_CAPACITANCE, AS3935_MODE, AS3935_DIST);
+
     gen_nmea0183_msg("$BBTXT,01,01,01,ENVIRONMENT found as3935 sensor at address=0x%s", String(AS3935_I2C_ADDR, HEX).c_str());
     app.onRepeat(10, []() {
       i2c_as3935_report();
