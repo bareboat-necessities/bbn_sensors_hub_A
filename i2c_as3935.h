@@ -65,19 +65,19 @@ void i2c_as3935_report() {
 
   // increase sensor sensitivity every once in a while. SENSE_INCREASE_INTERVAL controls how quickly the code 
   // attempts to increase sensitivity. 
-	if (millis() - sense_adj_last_ > SENSE_INCREASE_INTERVAL) {
-		sense_adj_last_ = millis();
-		uint8_t wdth = i2c_as3935_sensor.readWatchdogThreshold();
-		uint8_t srej = i2c_as3935_sensor.readSpikeRejection();
-		if ((wdth > AS3935MI::AS3935_WDTH_0) || (srej > AS3935MI::AS3935_SREJ_0)) {
-			// alternatively derease spike rejection and watchdog threshold 
-			if (srej > wdth) {
-				i2c_as3935_sensor.decreaseSpikeRejection();
-			} else {
-				i2c_as3935_sensor.decreaseWatchdogThreshold();
-			}
-		}
-	}
+  if (millis() - sense_adj_last_ > SENSE_INCREASE_INTERVAL) {
+    sense_adj_last_ = millis();
+    uint8_t wdth = i2c_as3935_sensor.readWatchdogThreshold();
+    uint8_t srej = i2c_as3935_sensor.readSpikeRejection();
+    if ((wdth > AS3935MI::AS3935_WDTH_0) || (srej > AS3935MI::AS3935_SREJ_0)) {
+      // alternatively derease spike rejection and watchdog threshold 
+      if (srej > wdth) {
+        i2c_as3935_sensor.decreaseSpikeRejection();
+      } else {
+        i2c_as3935_sensor.decreaseWatchdogThreshold();
+      }
+    }
+  }
 }
 
 bool i2c_as3935_try_init() {
