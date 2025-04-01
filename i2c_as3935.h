@@ -24,7 +24,7 @@ void i2c_as3935_report() {
   if (AS3935IsrTrig) {
     delay(3);
     AS3935IsrTrig = false;
-    uint8_t event = as3935.readInterruptSource();
+    uint8_t event = i2c_as3935_sensor.readInterruptSource();
     if (event == AS3935MI::AS3935_INT_L) {
       // Get distance data
       uint8_t lightningDistKm = i2c_as3935_sensor.readStormDistance();
