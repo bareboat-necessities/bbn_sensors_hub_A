@@ -9,7 +9,7 @@
 
 // Connect the sensor's IRQ pin to a GPIO pin on the microcontroller
 // then replace the number below with the GPIO pin number
-#define AS3935_IRQ_PIN       G7
+#define AS3935_IRQ_PIN  G7
 
 AS3935I2C i2c_as3935_sensor(AS3935I2C::AS3935I2C_A03, AS3935_IRQ_PIN);
 
