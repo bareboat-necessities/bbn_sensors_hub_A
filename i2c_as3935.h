@@ -49,9 +49,9 @@ void i2c_as3935_report()
       // account any previously seen events in the last 15 seconds.
       gen_nmea0183_xdr("$BBXDR,D,%.0f,M,LIGHTNING_RANGE", (float)lightningDistKm * 1000.0);
       gen_nmea0183_xdr("$BBXDR,X,%.0f,,LIGHTNING_LEVEL", (float)lightningEnergyVal);
-    } else if (intSrc == 2){
+    } else if (intSrc == 2) {
       //Serial.println("Disturber discovered!");
-    } else if (intSrc == 3){
+    } else if (intSrc == 3) {
       //Serial.println("Noise level too high!");
     }
   }
