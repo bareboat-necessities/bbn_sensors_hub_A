@@ -155,7 +155,7 @@ class DFRobot_AS3935_I2C {
     void setOutdoors(void);
 
     /**
-       @fn setOutdoors
+       @fn getNoiseFloorLvl
        @brief Get the noise level
        @return Return noise level
     */
