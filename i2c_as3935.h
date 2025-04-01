@@ -30,7 +30,7 @@ void i2c_as3935_report() {
       uint8_t lightningDistKm = i2c_as3935_sensor.readStormDistance();
 
       // Get lightning energy intensity
-      uint32_t lightningEnergyVal = i2c_as3935_sensor.getStrikeEnergyRaw();
+      uint32_t lightningEnergyVal = i2c_as3935_sensor.readEnergy();
 
       // Lightning! Now how far away is it? Distance estimation takes into
       // account any previously seen events in the last 15 seconds.
