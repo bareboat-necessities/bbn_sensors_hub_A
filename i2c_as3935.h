@@ -83,7 +83,7 @@ void i2c_as3935_report() {
 
 bool i2c_as3935_try_init() {
   pinMode(AS3935_IRQ_PIN, INPUT);
-  bool i2c_as3935_found = i2c_as3935_sensor.begin() == 0;
+  bool i2c_as3935_found = i2c_as3935_sensor.begin();
   if (i2c_as3935_found) {
     i2c_as3935_sensor.checkConnection();
     i2c_as3935_sensor.checkIRQ();
