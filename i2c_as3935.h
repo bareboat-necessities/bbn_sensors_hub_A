@@ -13,7 +13,7 @@ volatile int8_t AS3935IsrTrig = 0;
 // then replace the number below with the GPIO pin number
 #define AS3935_IRQ_PIN       G7
 
-// Antenna tuning capcitance (must be integer multiple of 8, 8 - 120 pf)
+// Antenna tuning capacitance (must be integer multiple of 8, 8 - 120 pf)
 #define AS3935_CAPACITANCE   96
 
 // Indoor/outdoor mode selection
