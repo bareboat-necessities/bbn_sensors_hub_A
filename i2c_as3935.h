@@ -27,6 +27,7 @@ void i2c_as3935_report() {
   if (AS3935IsrTrig) {
     delay(2);
     AS3935IsrTrig = false;
+    noise_adj_last_ = millis();
     uint8_t event = i2c_as3935_sensor.readInterruptSource();
     if (event == AS3935MI::AS3935_INT_L) {
       // Get distance data
@@ -62,7 +63,6 @@ void i2c_as3935_report() {
       // note that noise floor threshold events can also be triggered by an incorrect
       // analog front end setting.
       i2c_as3935_sensor.increaseNoiseFloorThreshold();
-      noise_adj_last_ = millis();
     }
   }
 
