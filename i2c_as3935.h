@@ -20,6 +20,7 @@ volatile bool AS3935IsrTrig = false;
 
 constexpr uint32_t SENSE_INCREASE_INTERVAL = 15000;  // 15 s sensitivity increase interval
 uint32_t sense_adj_last_ = 0L;                       // time of last sensitivity adjustment
+uint32_t noise_adj_last_ = 0L;                       // time of last noise adjustment
 
 void i2c_as3935_report() {
   if (AS3935IsrTrig) {
@@ -59,6 +60,7 @@ void i2c_as3935_report() {
       // if the noise floor threshold setting is not yet maxed out, increase the setting.
       // note that noise floor threshold events can also be triggered by an incorrect
       // analog front end setting.
+      noise_adj_last_ = millis();
       i2c_as3935_sensor.increaseNoiseFloorThreshold();
     }
   }
@@ -78,6 +80,10 @@ void i2c_as3935_report() {
       }
     }
   }
+  if (noise_adj_last_ != 0L && millis() - noise_adj_last_ > SENSE_INCREASE_INTERVAL) {
+    noise_adj_last_ = millis();
+    i2c_as3935_sensor.decreaseNoiseFloorThreshold();
+  }    
 }
 
 bool i2c_as3935_try_init() {
