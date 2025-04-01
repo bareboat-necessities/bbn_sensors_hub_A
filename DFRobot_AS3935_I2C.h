@@ -221,6 +221,13 @@ class DFRobot_AS3935_I2C {
     */
     void powerUp(void);
 
+    /**
+       @fn setMinStrikes
+       @brief minStrikes 1,5,9,16
+       @return None
+    */
+    uint8_t setMinStrikes(uint8_t minStrk);
+
   private:
     uint8_t irq, devAdd;
     uint8_t singRegRead(uint8_t regAdd);
@@ -229,7 +236,6 @@ class DFRobot_AS3935_I2C {
     void powerDown(void);
     void calRCO(void);
     void clearStatistics(void);
-    uint8_t setMinStrikes(uint8_t minStrk);
 
     /**
        @fn writeReg
