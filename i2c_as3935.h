@@ -48,9 +48,9 @@ void i2c_as3935_report() {
         sense_adj_last_ = millis();
         // alternatively increase spike rejection and watchdog threshold 
         if (srej < wdth) {
-          i2c_as3935_sensor.increaseSpikeRejection(srej);
+          i2c_as3935_sensor.increaseSpikeRejection();
         } else {
-          i2c_as3935_sensor.increaseWatchdogThreshold(wdth))
+          i2c_as3935_sensor.increaseWatchdogThreshold();
         }
       }
     } else if (event == AS3935MI::AS3935_INT_NH) {
