@@ -21,7 +21,7 @@ volatile bool AS3935IsrTrig = false;
 constexpr uint32_t SENSE_INCREASE_INTERVAL = 15000;  // 15 s sensitivity increase interval
 constexpr uint32_t NOISE_ADJ_INTERVAL = 30000;       // noise adjustment interval
 uint32_t sense_adj_last_ = 0L;                       // time of last sensitivity adjustment
-uint32_t noise_adj_last_ = 0L;                       // time of last noise adjustment
+uint32_t noise_adj_last_ = 0L;                       // time of last noise
 
 void i2c_as3935_report() {
   if (AS3935IsrTrig) {
