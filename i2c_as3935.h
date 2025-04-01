@@ -82,9 +82,12 @@ void i2c_as3935_report() {
     }
   }
   if (noise_adj_last_ != 0L && millis() - noise_adj_last_ > NOISE_ADJ_INTERVAL) {
-    noise_adj_last_ = millis();
-    i2c_as3935_sensor.decreaseNoiseFloorThreshold();
-  }    
+    uint8_t nf_lev = readNoiseFloorThreshold();
+	  if (nf_lev > AS3935_NFL_1) {
+      i2c_as3935_sensor.decreaseNoiseFloorThreshold();
+      noise_adj_last_ = millis();
+    }
+  }
 }
 
 bool i2c_as3935_try_init() {
