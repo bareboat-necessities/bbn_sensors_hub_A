@@ -113,11 +113,11 @@ bool i2c_as3935_try_init() {
     i2c_as3935_sensor.calibrateRCO();
 
     i2c_as3935_sensor.writeAFE(AS3935MI::AS3935_INDOORS);
-    i2c_as3935_sensor.writeNoiseFloorThreshold(AS3935MI::AS3935_NFL_2);
-    i2c_as3935_sensor.writeWatchdogThreshold(AS3935MI::AS3935_WDTH_2);
+    i2c_as3935_sensor.writeNoiseFloorThreshold(AS3935MI::AS3935_NFL_4);
+    i2c_as3935_sensor.writeWatchdogThreshold(AS3935MI::AS3935_WDTH_1);
     i2c_as3935_sensor.writeSpikeRejection(AS3935MI::AS3935_SREJ_0);
     i2c_as3935_sensor.writeMinLightnings(AS3935MI::AS3935_MNL_1);
-    i2c_as3935_sensor.writeMaskDisturbers(false);  
+    i2c_as3935_sensor.writeMaskDisturbers(true);  
 
     attachInterrupt(digitalPinToInterrupt(AS3935_IRQ_PIN), AS3935_ISR, RISING);
 
