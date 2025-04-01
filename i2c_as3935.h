@@ -2,31 +2,38 @@
 #define i2c_as3935_h
 
 #include <Wire.h>
-#include <SparkFun_AS3935.h>
+#include <DFRobot_AS3935_I2C.h>
 
 #include "NmeaXDR.h"
 #include "NmeaChecksum.h"
 
-// 0x03 is default i2c address, but the address can also be 0x02, 0x01.
-// Adjust the address jumpers on the underside of the product.
-// C - SCL i2c clock
-// D - SDA i2c data
-#define AS3935_I2C_ADDR 0x03
-#define LIGHTNING_INT 0x08
-#define DISTURBER_INT 0x04
-#define NOISE_INT 0x01
+volatile int8_t AS3935IsrTrig = 0;
 
-SparkFun_AS3935 i2c_as3935_sensor(AS3935_I2C_ADDR);
+// Connect the sensor's IRQ pin to a GPIO pin on the microcontroller
+// then replace the number below with the GPIO pin number
+#define AS3935_IRQ_PIN       G7
 
-// Interrupt pin for lightning detection
-const int lightningInt = G7;
+// Antenna tuning capcitance (must be integer multiple of 8, 8 - 120 pf)
+#define AS3935_CAPACITANCE   96
 
-byte noiseFloor = 2;
-byte watchDogVal = 3;
-byte spike = 2;
-byte lightningThresh = 0;
+// Indoor/outdoor mode selection
+#define AS3935_INDOORS       0
+#define AS3935_OUTDOORS      1
+#define AS3935_MODE          AS3935_INDOORS
 
-void i2c_as3935_report() {
+// Enable/disable disturber detection
+#define AS3935_DIST_DIS      0
+#define AS3935_DIST_EN       1
+#define AS3935_DIST          AS3935_DIST_EN
+
+// I2C address
+#define AS3935_I2C_ADDR      AS3935_ADD3
+
+void AS3935_ISR();
+
+DFRobot_AS3935_I2C  i2c_as3935_sensor((uint8_t)AS3935_IRQ_PIN, (uint8_t)AS3935_I2C_ADDR);
+
+void i2c_as3935_report() 
   if (digitalRead(lightningInt) == HIGH) {
     // Hardware has alerted us to an event, now we read the interrupt register
     // to see exactly what it is.
@@ -51,23 +58,23 @@ void i2c_as3935_report() {
 
 bool i2c_as3935_try_init() {
   bool i2c_as3935_found = false;
-  pinMode(lightningInt, INPUT); // When lightning is detected the interrupt pin goes HIGH.
 
-  i2c_as3935_found = i2c_as3935_sensor.begin(Wire);
+  i2c_as3935_found = i2c_as3935_sensor.begin();
   if (i2c_as3935_found) {
-    i2c_as3935_sensor.maskDisturber(true);
-    i2c_as3935_sensor.setNoiseLevel(noiseFloor);
-    //i2c_as3935_sensor.watchdogThreshold(watchDogVal);
-    //i2c_as3935_sensor.spikeRejection(spike);
-    //i2c_as3935_sensor.lightningThreshold(lightningThresh);
-    i2c_as3935_sensor.setIndoorOutdoor(INDOOR);
-    //i2c_as3935_sensor.setIndoorOutdoor(OUTDOOR);
+    i2c_as3935_sensor.defInit();
+    attachInterrupt(digitalPinToInterrupt(AS3935_IRQ_PIN), AS3935_ISR, RISING);
+    i2c_as3935_sensor.manualCal(AS3935_CAPACITANCE, AS3935_MODE, AS3935_DIST);
+
     gen_nmea0183_msg("$BBTXT,01,01,01,ENVIRONMENT found as3935 sensor at address=0x%s", String(AS3935_I2C_ADDR, HEX).c_str());
     app.onRepeat(10, []() {
       i2c_as3935_report();
     });
   }
   return i2c_as3935_found;
+}
+
+void IRAM_ATTR AS3935_ISR() {
+  AS3935IsrTrig = 1;
 }
 
 #endif
