@@ -19,12 +19,12 @@ volatile int8_t AS3935IsrTrig = 0;
 // Indoor/outdoor mode selection
 #define AS3935_INDOORS       0
 #define AS3935_OUTDOORS      1
-#define AS3935_MODE          AS3935_INDOORS
+#define AS3935_MODE          AS3935_OUTDOORS
 
 // Enable/disable disturber detection
 #define AS3935_DIST_DIS      0
 #define AS3935_DIST_EN       1
-#define AS3935_DIST          AS3935_DIST_DIS
+#define AS3935_DIST          AS3935_DIST_EN
 
 // I2C address
 #define AS3935_I2C_ADDR      AS3935_ADD3
@@ -62,9 +62,10 @@ bool i2c_as3935_try_init() {
   if (i2c_as3935_found) {
     pinMode(AS3935_IRQ_PIN, INPUT);
     i2c_as3935_sensor.defInit();
-    i2c_as3935_sensor.setNoiseFloorLvl(7);
+    i2c_as3935_sensor.setNoiseFloorLvl(5);
     i2c_as3935_sensor.setSpikeRejection(4);
-    //i2c_as3935_sensor.setWatchdogThreshold(1);
+    i2c_as3935_sensor.setMinStrikes(1);
+    i2c_as3935_sensor.setWatchdogThreshold(2);
     attachInterrupt(digitalPinToInterrupt(AS3935_IRQ_PIN), AS3935_ISR, RISING);
     i2c_as3935_sensor.manualCal(AS3935_CAPACITANCE, AS3935_MODE, AS3935_DIST);
     gen_nmea0183_msg("$BBTXT,01,01,01,ENVIRONMENT found as3935 sensor at address=0x%s", String(AS3935_I2C_ADDR, HEX).c_str());
