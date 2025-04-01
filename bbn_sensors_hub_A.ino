@@ -19,9 +19,9 @@ void setup() {
   auto cfg = M5.config();
   M5.begin(cfg);
   //M5.begin();
-  Wire.begin(G2, G1, 200000UL);
+  Wire.begin(G2, G1, 100000UL);
   if (i2c_alt_enable) {
-    Wire1.begin(G38, G39, 200000UL);
+    Wire1.begin(G38, G39, 100000UL);
   }
   Serial.begin(38400);
   gen_nmea0183_msg("$BBTXT,01,01,01,FirmwareTag: %s", firmware_tag);
