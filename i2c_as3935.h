@@ -72,7 +72,7 @@ void i2c_as3935_report() {
     sense_adj_last_ = millis();
     uint8_t wdth = i2c_as3935_sensor.readWatchdogThreshold();
     uint8_t srej = i2c_as3935_sensor.readSpikeRejection();
-    if ((wdth > AS3935MI::AS3935_WDTH_0) || (srej > AS3935MI::AS3935_SREJ_0)) {
+    if ((wdth > AS3935MI::AS3935_WDTH_1) || (srej > AS3935MI::AS3935_SREJ_1)) {
       // alternatively derease spike rejection and watchdog threshold 
       if (srej > wdth) {
         i2c_as3935_sensor.decreaseSpikeRejection();
@@ -128,7 +128,7 @@ bool i2c_as3935_try_init() {
 
     attachInterrupt(digitalPinToInterrupt(AS3935_IRQ_PIN), AS3935_ISR, RISING);
 
-    app.onRepeat(500, []() {
+    app.onRepeat(400, []() {
       i2c_as3935_report();
     });
   }
