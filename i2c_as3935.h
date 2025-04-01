@@ -59,7 +59,13 @@ bool i2c_as3935_try_init() {
     }
 
     int32_t frequency = 0;
-    as3935.calibrateResonanceFrequency(frequency, division_ratio));
+    i2c_as3935_sensor.calibrateResonanceFrequency(frequency, division_ratio);
+    i2c_as3935_sensor.calibrateRCO();
+
+    i2c_as3935_sensor.writeAFE(AS3935MI::AS3935_OUTDOORS);
+    i2c_as3935_sensor.writeNoiseFloorThreshold(AS3935MI::AS3935_NFL_5);
+    i2c_as3935_sensor.writeWatchdogThreshold(AS3935MI::AS3935_WDTH_2);
+    i2c_as3935_sensor.writeSpikeRejection(AS3935MI::AS3935_SREJ_2);
 	  
       i2c_as3935_sensor.defInit();
       i2c_as3935_sensor.setNoiseFloorLvl(5);
