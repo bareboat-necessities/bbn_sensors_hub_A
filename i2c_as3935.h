@@ -2,8 +2,8 @@
 #define i2c_as3935_h
 
 #include <Wire.h>
-#include <DFRobot_AS3935_I2C.h>
 
+#include "DFRobot_AS3935_I2C.h"
 #include "NmeaXDR.h"
 #include "NmeaChecksum.h"
 
