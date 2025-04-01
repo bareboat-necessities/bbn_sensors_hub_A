@@ -21,7 +21,7 @@ SparkFun_AS3935 i2c_as3935_sensor(AS3935_I2C_ADDR);
 // Interrupt pin for lightning detection
 const int lightningInt = G7;
 
-byte noiseFloor = 4;
+byte noiseFloor = 2;
 byte watchDogVal = 3;
 byte spike = 2;
 byte lightningThresh = 0;
