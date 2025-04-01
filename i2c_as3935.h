@@ -24,10 +24,10 @@ void i2c_as3935_report() {
   if (AS3935IsrTrig) {
     delay(3);
     AS3935IsrTrig = false;
-    uint8_t intSrc = i2c_as3935_sensor.getInterruptSrc();
-    if (intSrc == 1) {
+    uint8_t event = as3935.readInterruptSource();
+    if (event == AS3935MI::AS3935_INT_L) {
       // Get distance data
-      uint8_t lightningDistKm = i2c_as3935_sensor.getLightningDistKm();
+      uint8_t lightningDistKm = i2c_as3935_sensor.readStormDistance();
 
       // Get lightning energy intensity
       uint32_t lightningEnergyVal = i2c_as3935_sensor.getStrikeEnergyRaw();
@@ -38,8 +38,13 @@ void i2c_as3935_report() {
       gen_nmea0183_xdr("$BBXDR,X,%.0f,,LIGHTNING_LEVEL", (float)lightningEnergyVal);
     } else if (intSrc == 2) {
       gen_nmea0183_msg("$BBTXT,01,01,01,ENVIRONMENT LIGHTNING %s", "Disturber discovered");
-    } else if (intSrc == 3) {
+    } else if (event == AS3935MI::AS3935_INT_NH) {
       gen_nmea0183_msg("$BBTXT,01,01,01,ENVIRONMENT LIGHTNING %s", "Noise level too high");
+			// if the noise floor threshold setting is not yet maxed out, increase the setting.
+			// note that noise floor threshold events can also be triggered by an incorrect
+			// analog front end setting.
+			uint8_t nf_lev = AS3935MI::AS3935_NFL_0;
+			i2c_as3935_sensor.increaseNoiseFloorThreshold(nf_lev);
     }
   }
 }
