@@ -23,7 +23,7 @@ uint32_t sense_adj_last_ = 0L;                       // time of last sensitivity
 
 void i2c_as3935_report() {
   if (AS3935IsrTrig) {
-    delay(4);
+    delay(3);
     AS3935IsrTrig = false;
     uint8_t event = i2c_as3935_sensor.readInterruptSource();
     if (event == AS3935MI::AS3935_INT_L) {
