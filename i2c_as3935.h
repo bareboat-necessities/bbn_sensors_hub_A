@@ -28,7 +28,7 @@ void i2c_as3935_report() {
     delay(2);
     AS3935IsrTrig = false;
     uint8_t event = i2c_as3935_sensor.readInterruptSource();
-    if (event != AS3935MI::AS3935_INT_DUPDATE) {
+    if (event != 0) {
       noise_adj_last_ = millis();
     }
     if (event == AS3935MI::AS3935_INT_L) {
