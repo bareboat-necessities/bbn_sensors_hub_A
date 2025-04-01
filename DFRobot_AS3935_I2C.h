@@ -548,8 +548,6 @@ void DFRobot_AS3935_I2C::manualCal(uint8_t capacitance, uint8_t location, uint8_
 
 uint8_t DFRobot_AS3935_I2C::begin(void) {
   uint8_t buf[2];
-  Wire.begin();
-  Wire.setClock(100000);
   DBG("i2c init");
   if (readReg(0, buf, 2) == 2) {
     DBG("return");
