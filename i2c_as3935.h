@@ -23,6 +23,8 @@ constexpr uint32_t NOISE_ADJ_INTERVAL = 30000;       // noise adjustment interva
 uint32_t sense_adj_last_ = 0L;                       // time of last sensitivity adjustment
 uint32_t noise_adj_last_ = 0L;                       // time of last noise
 
+const bool auto_adjust = false;
+
 void i2c_as3935_report() {
   if (AS3935IsrTrig) {
     delay(2);
@@ -45,49 +47,56 @@ void i2c_as3935_report() {
     } else if (event == AS3935MI::AS3935_INT_D) {
       gen_nmea0183_msg("$BBTXT,01,01,01,ENVIRONMENT LIGHTNING %s", "Disturber discovered");
       
-      // increasing the Watchdog Threshold and / or Spike Rejection setting improves the AS3935s resistance 
-      // against disturbers but also decrease the lightning detection efficiency (see AS3935 datasheet)
-      uint8_t wdth = i2c_as3935_sensor.readWatchdogThreshold();
-      uint8_t srej = i2c_as3935_sensor.readSpikeRejection();
-
-      if ((wdth < AS3935MI::AS3935_WDTH_10) || (srej < AS3935MI::AS3935_SREJ_10)) {
-        sense_adj_last_ = millis();
-        // alternatively increase spike rejection and watchdog threshold 
-        if (srej < wdth) {
-          i2c_as3935_sensor.increaseSpikeRejection();
-        } else {
-          i2c_as3935_sensor.increaseWatchdogThreshold();
+      if (auto_adjust) {
+        // increasing the Watchdog Threshold and / or Spike Rejection setting improves the AS3935s resistance 
+        // against disturbers but also decrease the lightning detection efficiency (see AS3935 datasheet)
+        uint8_t wdth = i2c_as3935_sensor.readWatchdogThreshold();
+        uint8_t srej = i2c_as3935_sensor.readSpikeRejection();
+  
+        if ((wdth < AS3935MI::AS3935_WDTH_10) || (srej < AS3935MI::AS3935_SREJ_10)) {
+          sense_adj_last_ = millis();
+          // alternatively increase spike rejection and watchdog threshold 
+          if (srej < wdth) {
+            i2c_as3935_sensor.increaseSpikeRejection();
+          } else {
+            i2c_as3935_sensor.increaseWatchdogThreshold();
+          }
         }
       }
     } else if (event == AS3935MI::AS3935_INT_NH) {
       gen_nmea0183_msg("$BBTXT,01,01,01,ENVIRONMENT LIGHTNING %s", "Noise level too high");
-      // if the noise floor threshold setting is not yet maxed out, increase the setting.
-      // note that noise floor threshold events can also be triggered by an incorrect
-      // analog front end setting.
-      i2c_as3935_sensor.increaseNoiseFloorThreshold();
-    }
-  }
 
-  // increase sensor sensitivity every once in a while. SENSE_INCREASE_INTERVAL controls how quickly the code 
-  // attempts to increase sensitivity. 
-  if (sense_adj_last_ != 0L && millis() - sense_adj_last_ > SENSE_INCREASE_INTERVAL) {
-    sense_adj_last_ = millis();
-    uint8_t wdth = i2c_as3935_sensor.readWatchdogThreshold();
-    uint8_t srej = i2c_as3935_sensor.readSpikeRejection();
-    if ((wdth > AS3935MI::AS3935_WDTH_1) || (srej > AS3935MI::AS3935_SREJ_1)) {
-      // alternatively derease spike rejection and watchdog threshold 
-      if (srej > wdth) {
-        i2c_as3935_sensor.decreaseSpikeRejection();
-      } else {
-        i2c_as3935_sensor.decreaseWatchdogThreshold();
+      if (auto_adjust) {
+        // if the noise floor threshold setting is not yet maxed out, increase the setting.
+        // note that noise floor threshold events can also be triggered by an incorrect
+        // analog front end setting.
+        i2c_as3935_sensor.increaseNoiseFloorThreshold();
       }
     }
   }
-  if (noise_adj_last_ != 0L && millis() - noise_adj_last_ > NOISE_ADJ_INTERVAL) {
-    uint8_t nf_lev = i2c_as3935_sensor.readNoiseFloorThreshold();
-    if (nf_lev > AS3935MI::AS3935_NFL_1) {
-      i2c_as3935_sensor.decreaseNoiseFloorThreshold();
-      noise_adj_last_ = millis();
+
+  if (auto_adjust) {
+    // increase sensor sensitivity every once in a while. SENSE_INCREASE_INTERVAL controls how quickly the code 
+    // attempts to increase sensitivity. 
+    if (sense_adj_last_ != 0L && millis() - sense_adj_last_ > SENSE_INCREASE_INTERVAL) {
+      sense_adj_last_ = millis();
+      uint8_t wdth = i2c_as3935_sensor.readWatchdogThreshold();
+      uint8_t srej = i2c_as3935_sensor.readSpikeRejection();
+      if ((wdth > AS3935MI::AS3935_WDTH_1) || (srej > AS3935MI::AS3935_SREJ_1)) {
+        // alternatively derease spike rejection and watchdog threshold 
+        if (srej > wdth) {
+          i2c_as3935_sensor.decreaseSpikeRejection();
+        } else {
+          i2c_as3935_sensor.decreaseWatchdogThreshold();
+        }
+      }
+    }
+    if (noise_adj_last_ != 0L && millis() - noise_adj_last_ > NOISE_ADJ_INTERVAL) {
+      uint8_t nf_lev = i2c_as3935_sensor.readNoiseFloorThreshold();
+      if (nf_lev > AS3935MI::AS3935_NFL_1) {
+        i2c_as3935_sensor.decreaseNoiseFloorThreshold();
+        noise_adj_last_ = millis();
+      }
     }
   }
 }
@@ -111,7 +120,7 @@ bool i2c_as3935_try_init() {
     i2c_as3935_sensor.checkIRQ();
 
     // calibrate the resonance frequency. failing the resonance frequency could indicate an issue 
-    // of the sensor. resonance frequency calibration will take about 1.7 seconds to complete.	
+    // of the sensor. resonance frequency calibration will take about 1.7 seconds to complete.  
     uint8_t division_ratio = AS3935MI::AS3935_DR_16;
     if (F_CPU < 48000000) { // fixes https://bitbucket.org/christandlg/as3935mi/issues/12/autocalibrate-no-longer-working
       division_ratio = AS3935MI::AS3935_DR_64;
@@ -125,11 +134,11 @@ bool i2c_as3935_try_init() {
     gen_nmea0183_msg("$BBTXT,01,01,01,ENVIRONMENT LIGHTNING RCO calibrated=%s", String(calib).c_str()); 
 
     i2c_as3935_sensor.writeAFE(AS3935MI::AS3935_INDOORS);
+    i2c_as3935_sensor.writeMaskDisturbers(false);
     i2c_as3935_sensor.writeNoiseFloorThreshold(AS3935MI::AS3935_NFL_6);
+    i2c_as3935_sensor.writeSpikeRejection(AS3935MI::AS3935_SREJ_8);
     i2c_as3935_sensor.writeWatchdogThreshold(AS3935MI::AS3935_WDTH_2);
-    i2c_as3935_sensor.writeSpikeRejection(AS3935MI::AS3935_SREJ_4);
     i2c_as3935_sensor.writeMinLightnings(AS3935MI::AS3935_MNL_1);
-    i2c_as3935_sensor.writeMaskDisturbers(false);  
 
     attachInterrupt(digitalPinToInterrupt(AS3935_IRQ_PIN), AS3935_ISR, RISING);
 
@@ -145,4 +154,3 @@ void IRAM_ATTR AS3935_ISR() {
 }
 
 #endif
-
