@@ -23,7 +23,7 @@ constexpr uint32_t NOISE_ADJ_INTERVAL = 30000;       // noise adjustment interva
 uint32_t sense_adj_last_ = 0L;                       // time of last sensitivity adjustment
 uint32_t noise_adj_last_ = 0L;                       // time of last noise
 
-const bool auto_adjust = false;
+const bool auto_adjust = true;
 
 void i2c_as3935_report() {
   if (AS3935IsrTrig) {
@@ -133,7 +133,7 @@ bool i2c_as3935_try_init() {
     bool calib = i2c_as3935_sensor.calibrateRCO();
     gen_nmea0183_msg("$BBTXT,01,01,01,ENVIRONMENT LIGHTNING RCO calibrated=%s", String(calib).c_str()); 
 
-    i2c_as3935_sensor.writeAFE(AS3935MI::AS3935_INDOORS);
+    i2c_as3935_sensor.writeAFE(AS3935MI::AS3935_OUTDOORS);
     i2c_as3935_sensor.writeMaskDisturbers(false);
     i2c_as3935_sensor.writeNoiseFloorThreshold(AS3935MI::AS3935_NFL_2);
     i2c_as3935_sensor.writeSpikeRejection(AS3935MI::AS3935_SREJ_4);
