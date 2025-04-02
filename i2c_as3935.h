@@ -45,6 +45,7 @@ void i2c_as3935_report() {
       gen_nmea0183_xdr("$BBXDR,D,%.0f,M,LIGHTNING_RANGE", (float)lightningDistKm * 1000.0);
       gen_nmea0183_xdr("$BBXDR,X,%.0f,,LIGHTNING_LEVEL", (float)lightningEnergyVal);
     } else if (event == AS3935MI::AS3935_INT_D) {
+      gen_nmea0183_xdr("$BBXDR,X,%.0f,,LIGHTNING_DISTURBER", 1.0);
       gen_nmea0183_msg("$BBTXT,01,01,01,ENVIRONMENT LIGHTNING %s", "Disturber discovered");
       
       if (auto_adjust) {
