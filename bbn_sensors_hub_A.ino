@@ -34,5 +34,5 @@ void loop() {
   M5.update();
   i2c_sensors_update();
   app.tick();
-  delayMicroseconds(20);
+  delayMicroseconds(10000);
 }
