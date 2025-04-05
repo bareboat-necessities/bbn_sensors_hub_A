@@ -5,6 +5,8 @@
 using namespace reactesp;
 ReactESP app;
 
+#define I2C_FREQ 200000UL
+
 #include "NmeaXDR.h"
 #include "Nmea0183Msg.h"
 #include "1w_sensors.h"
@@ -19,9 +21,9 @@ void setup() {
   auto cfg = M5.config();
   M5.begin(cfg);
   //M5.begin();
-  Wire.begin(G2, G1, 200000UL);
+  Wire.begin(G2, G1, I2C_FREQ);
   if (i2c_alt_enable) {
-    Wire1.begin(G38, G39, 200000UL);
+    Wire1.begin(G38, G39, I2C_FREQ);
   }
   Serial.begin(38400);
   gen_nmea0183_msg("$BBTXT,01,01,01,FirmwareTag: %s", firmware_tag);
