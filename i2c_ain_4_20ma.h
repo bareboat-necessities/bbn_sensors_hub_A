@@ -18,7 +18,7 @@ void i2c_ain_4_20ma_report(MODULE_4_20MA *i2c_ain_4_20ma_sensor) {
   }
 }
 
-bool i2c_ain_4_20ma_try_init(TwoWire *wire = &Wire, uint8_t sda = SDA, uint8_t scl = SCL, uint32_t freq = 1000000UL) {
+bool i2c_ain_4_20ma_try_init(TwoWire *wire = &Wire, uint8_t sda = SDA, uint8_t scl = SCL, uint32_t freq = I2C_FREQ) {
   bool i2c_ain_4_20ma_found = false;
   MODULE_4_20MA *i2c_ain_4_20ma_sensor = (wire == &Wire ? &i2c_ain_4_20ma_sensor_0 : &i2c_ain_4_20ma_sensor_1);
   for (int i = 0; i < 3; i++) {
