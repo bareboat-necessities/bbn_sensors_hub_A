@@ -22,12 +22,12 @@ void i2c_sensors_scan(bool i2c_alt_enable_scan) {
   i2c_as3935_try_init();
   sht30_found = i2c_sht30_try_init();
   i2c_ina219_try_init(&Wire);
-  i2c_ads1115_try_init(&Wire, G2, G1, 100000UL);
-  i2c_ain_4_20ma_try_init(&Wire, G2, G1, 100000UL);
+  i2c_ads1115_try_init(&Wire, G2, G1, I2C_FREQ);
+  i2c_ain_4_20ma_try_init(&Wire, G2, G1, I2C_FREQ);
   if (i2c_alt_enable_scan) {
     i2c_ina219_try_init(&Wire1);
-    i2c_ads1115_try_init(&Wire1, G38, G39, 100000UL);
-    i2c_ain_4_20ma_try_init(&Wire1, G38, G39, 100000UL);
+    i2c_ads1115_try_init(&Wire1, G38, G39, I2C_FREQ);
+    i2c_ain_4_20ma_try_init(&Wire1, G38, G39, I2C_FREQ);
   }
   bool dps310_found = i2c_dps310_try_init();
   if (!dps310_found) {
