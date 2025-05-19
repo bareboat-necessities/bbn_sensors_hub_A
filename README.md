@@ -57,6 +57,8 @@ Recommended config file for XDR Parser SignalK plugin:
 
 https://github.com/bareboat-necessities/lysmarine_gen/blob/bookworm/install-scripts/4-server/files/xdrParser-plugin.json
 
+When registering a serial connection in SignalK use device symbolic link from /dev/serial/by-id/ (instead of direct /dev/ttyXXX name).
+
 ## Supported Sensors
 
 ### AS3935 Lightning Detector sensor to NMEA-0183
